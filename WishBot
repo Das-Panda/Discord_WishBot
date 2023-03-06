@@ -1,0 +1,24 @@
+import discord
+import asyncio
+import pytz
+from datetime import datetime
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to Discord!')
+
+async def wish_at_11():
+    # Set timezone to central time
+    central_tz = pytz.timezone('US/Central')
+    while True:
+        now = datetime.now(central_tz)
+        # Check if it's 11:11 AM or PM
+        if now.hour == 11 and now.minute == 11 and (now.second >= 0 and now.second <= 10):
+            channel = client.get_channel(CHANNEL_ID) # Replace CHANNEL_ID with your channel ID
+            await channel.send("@everyone Make a wish! It's 11:11!")
+        await asyncio.sleep(1)
+
+client.loop.create_task(wish_at_11())
+client.run('YOUR_BOT_TOKEN') # Replace YOUR_BOT_TOKEN with your bot's token
